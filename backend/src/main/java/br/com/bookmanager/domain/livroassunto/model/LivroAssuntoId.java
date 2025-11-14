@@ -1,4 +1,4 @@
-package br.com.bookmanager.domain.livro.model;
+package br.com.bookmanager.domain.livroassunto.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;

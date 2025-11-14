@@ -72,8 +72,8 @@ public class AutorService {
     public void delete(Integer codAu) throws RecursoInexistenteException {
         Autor autor = getAutorOrThrowException(codAu);
 
-        List<LivroAutor> livros = livroAutorService.findByAutor(autor);
-        livros.forEach(livroAutor -> livroAutorService.delete(livroAutor));
+        livroAutorService.findByAutor(autor)
+                .forEach(livroAutor -> livroAutorService.delete(livroAutor));
 
         autorRepository.delete(autor);
     }
@@ -81,9 +81,7 @@ public class AutorService {
     public List<LivroResponseDTO> getLivros(Integer codAu) {
         Autor autor = getAutorOrThrowException(codAu);
 
-        List<LivroAutor> livrosByAutor = livroAutorService.findByAutor(autor);
-
-        return livrosByAutor
+        return livroAutorService.findByAutor(autor)
                 .stream()
                 .map(LivroAutor::getLivro)
                 .map(LivroResponseDTO::new)

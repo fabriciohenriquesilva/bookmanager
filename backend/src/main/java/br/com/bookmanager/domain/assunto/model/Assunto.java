@@ -1,6 +1,6 @@
 package br.com.bookmanager.domain.assunto.model;
 
-import br.com.bookmanager.domain.livro.model.LivroAssunto;
+import br.com.bookmanager.domain.livroassunto.model.LivroAssunto;
 import jakarta.persistence.*;
 
 import java.util.List;

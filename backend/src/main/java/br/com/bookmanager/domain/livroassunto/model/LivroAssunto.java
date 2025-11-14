@@ -1,6 +1,7 @@
-package br.com.bookmanager.domain.livro.model;
+package br.com.bookmanager.domain.livroassunto.model;
 
 import br.com.bookmanager.domain.assunto.model.Assunto;
+import br.com.bookmanager.domain.livro.model.Livro;
 import jakarta.persistence.*;
 
 @Entity
