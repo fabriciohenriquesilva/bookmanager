@@ -9,7 +9,7 @@ import br.com.bookmanager.domain.livro.LivroService;
 import br.com.bookmanager.domain.livro.dto.LivroResponseDTO;
 import br.com.bookmanager.domain.livroautor.LivroAutorService;
 import br.com.bookmanager.domain.livroautor.model.LivroAutor;
-import br.com.bookmanager.infra.exception.RecursoInexistenteException;
+import br.com.bookmanager.infra.exception.RegistroNaoEncontradoException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -55,7 +55,7 @@ public class AutorService {
                 .map(AutorResponseDTO::new);
     }
 
-    public AutorResponseDTO findById(Integer codAu) throws RecursoInexistenteException {
+    public AutorResponseDTO findById(Integer codAu) throws RegistroNaoEncontradoException {
         Autor autor = getAutorOrThrowException(codAu);
 
         return new AutorResponseDTO(autor);
@@ -69,7 +69,7 @@ public class AutorService {
         return new AutorResponseDTO(autorRepository.save(autor));
     }
 
-    public void delete(Integer codAu) throws RecursoInexistenteException {
+    public void delete(Integer codAu) throws RegistroNaoEncontradoException {
         Autor autor = getAutorOrThrowException(codAu);
 
         livroAutorService.findByAutor(autor)
@@ -90,7 +90,7 @@ public class AutorService {
 
     public Autor getAutorOrThrowException(Integer codAu) {
         return autorRepository.findById(codAu)
-                .orElseThrow(() -> new RecursoInexistenteException(codAu));
+                .orElseThrow(() -> new RegistroNaoEncontradoException(codAu));
     }
 
 }

@@ -4,12 +4,10 @@ import br.com.bookmanager.domain.assunto.dto.AssuntoCreateRequestDTO;
 import br.com.bookmanager.domain.assunto.dto.AssuntoResponseDTO;
 import br.com.bookmanager.domain.assunto.dto.AssuntoUpdateRequestDTO;
 import br.com.bookmanager.domain.assunto.model.Assunto;
-import br.com.bookmanager.domain.autor.dto.AutorUpdateRequestDTO;
 import br.com.bookmanager.domain.livro.dto.LivroResponseDTO;
 import br.com.bookmanager.domain.livroassunto.LivroAssuntoService;
 import br.com.bookmanager.domain.livroassunto.model.LivroAssunto;
-import br.com.bookmanager.domain.livroautor.model.LivroAutor;
-import br.com.bookmanager.infra.exception.RecursoInexistenteException;
+import br.com.bookmanager.infra.exception.RegistroNaoEncontradoException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -39,7 +37,7 @@ public class AssuntoService {
                 .map(AssuntoResponseDTO::new);
     }
 
-    public AssuntoResponseDTO findById(Integer codAs) throws RecursoInexistenteException {
+    public AssuntoResponseDTO findById(Integer codAs) throws RegistroNaoEncontradoException {
         Assunto assunto = getAssuntoOrThrowException(codAs);
 
         return new AssuntoResponseDTO(assunto);
@@ -53,7 +51,7 @@ public class AssuntoService {
         return new AssuntoResponseDTO(assuntoRepository.save(assunto));
     }
 
-    public void delete(Integer codAs) throws RecursoInexistenteException {
+    public void delete(Integer codAs) throws RegistroNaoEncontradoException {
         Assunto assunto = getAssuntoOrThrowException(codAs);
 
         livroAssuntoService.findByAssunto(assunto)
@@ -74,7 +72,7 @@ public class AssuntoService {
 
     public Assunto getAssuntoOrThrowException(Integer codAs) {
         return assuntoRepository.findById(codAs)
-                .orElseThrow(() -> new RecursoInexistenteException(codAs));
+                .orElseThrow(() -> new RegistroNaoEncontradoException(codAs));
     }
 
 }
