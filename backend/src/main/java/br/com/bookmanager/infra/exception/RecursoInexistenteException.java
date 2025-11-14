@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class RecursoInexistenteException extends RuntimeException {
 
     public RecursoInexistenteException(Number id) {
-        super("não foi encontrado um registro com código = " + id);
+        super("Não foi encontrado um registro com código = " + id);
     }
 
     public RecursoInexistenteException(String message) {

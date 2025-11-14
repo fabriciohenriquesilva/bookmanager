@@ -1,7 +1,9 @@
 package br.com.bookmanager.domain.livro.model;
 
+import br.com.bookmanager.domain.livroautor.model.LivroAutor;
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Entity
@@ -24,6 +26,9 @@ public class Livro {
 
     @Column(name = "anopublicacao", length = 4)
     private String anoPublicacao;
+
+    @Column(name = "valor")
+    private BigDecimal valor;
 
     @OneToMany(mappedBy = "livro")
     private List<LivroAutor> autores;
@@ -69,6 +74,14 @@ public class Livro {
 
     public void setAnoPublicacao(String anoPublicacao) {
         this.anoPublicacao = anoPublicacao;
+    }
+
+    public BigDecimal getValor() {
+        return valor;
+    }
+
+    public void setValor(BigDecimal valor) {
+        this.valor = valor;
     }
 
     public List<LivroAutor> getAutores() {

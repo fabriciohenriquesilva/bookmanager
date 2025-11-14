@@ -1,6 +1,6 @@
 package br.com.bookmanager.domain.autor.model;
 
-import br.com.bookmanager.domain.livro.model.LivroAutor;
+import br.com.bookmanager.domain.livroautor.model.LivroAutor;
 import jakarta.persistence.*;
 
 import java.util.List;
