@@ -1,10 +1,9 @@
 package br.com.bookmanager.domain.autor;
 
-import br.com.bookmanager.domain.autor.model.Autor;
 import br.com.bookmanager.domain.autor.dto.AutorCreateRequestDTO;
-import br.com.bookmanager.domain.autor.dto.AutorCreateResponseDTO;
 import br.com.bookmanager.domain.autor.dto.AutorResponseDTO;
 import br.com.bookmanager.domain.autor.dto.AutorUpdateRequestDTO;
+import br.com.bookmanager.domain.autor.model.Autor;
 import br.com.bookmanager.domain.livro.LivroService;
 import br.com.bookmanager.domain.livro.dto.LivroResponseDTO;
 import br.com.bookmanager.domain.livroautor.LivroAutorService;
@@ -31,7 +30,7 @@ public class AutorService {
     @Autowired
     private LivroAutorService livroAutorService;
 
-    public AutorCreateResponseDTO create(AutorCreateRequestDTO request) {
+    public AutorResponseDTO create(AutorCreateRequestDTO request) {
         Autor entity = request.toEntity();
 
         Autor autor = autorRepository.save(entity);
@@ -47,7 +46,7 @@ public class AutorService {
             }
         }
 
-        return new AutorCreateResponseDTO(autor);
+        return new AutorResponseDTO(autor);
     }
 
     public Page<AutorResponseDTO> findAll(Pageable pageable) {

@@ -1,7 +1,6 @@
 package br.com.bookmanager.domain.autor;
 
 import br.com.bookmanager.domain.autor.dto.AutorCreateRequestDTO;
-import br.com.bookmanager.domain.autor.dto.AutorCreateResponseDTO;
 import br.com.bookmanager.domain.autor.dto.AutorResponseDTO;
 import br.com.bookmanager.domain.autor.dto.AutorUpdateRequestDTO;
 import br.com.bookmanager.domain.livro.dto.LivroResponseDTO;
@@ -24,8 +23,8 @@ public class AutorController {
     private AutorService autorService;
 
     @PostMapping
-    public ResponseEntity<AutorCreateResponseDTO> create(@Valid @RequestBody AutorCreateRequestDTO request) {
-        AutorCreateResponseDTO autor = autorService.create(request);
+    public ResponseEntity<AutorResponseDTO> create(@Valid @RequestBody AutorCreateRequestDTO request) {
+        AutorResponseDTO autor = autorService.create(request);
         URI location = URI.create("/autores/" + autor.codAu());
         return ResponseEntity.created(location).body(autor);
     }
