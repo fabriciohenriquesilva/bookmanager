@@ -17,7 +17,7 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("autor")
+@RequestMapping("autores")
 public class AutorController {
 
     @Autowired
@@ -26,7 +26,7 @@ public class AutorController {
     @PostMapping
     public ResponseEntity<AutorCreateResponseDTO> create(@Valid @RequestBody AutorCreateRequestDTO request) {
         AutorCreateResponseDTO autor = autorService.create(request);
-        URI location = URI.create("/autor/" + autor.codAu());
+        URI location = URI.create("/autores/" + autor.codAu());
         return ResponseEntity.created(location).body(autor);
     }
 

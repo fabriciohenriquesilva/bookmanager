@@ -16,7 +16,7 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("assunto")
+@RequestMapping("assuntos")
 public class AssuntoController {
 
     @Autowired
@@ -25,7 +25,7 @@ public class AssuntoController {
     @PostMapping
     public ResponseEntity<AssuntoResponseDTO> create(@Valid @RequestBody AssuntoCreateRequestDTO request) {
         AssuntoResponseDTO assunto = assuntoService.create(request);
-        URI location = URI.create("/assunto/" + assunto.codAs());
+        URI location = URI.create("/assuntos/" + assunto.codAs());
         return ResponseEntity.created(location).body(assunto);
     }
 
