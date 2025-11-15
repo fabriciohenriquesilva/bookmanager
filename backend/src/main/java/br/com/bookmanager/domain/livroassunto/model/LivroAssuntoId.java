@@ -10,36 +10,44 @@ import java.util.Objects;
 public class LivroAssuntoId implements Serializable {
 
     @Column(name = "livro_codl")
-    private Integer livroId;
+    private Integer livroCodL;
 
     @Column(name = "assunto_codas")
-    private Integer assuntoId;
+    private Integer assuntoCodAs;
 
-    public Integer getLivroId() {
-        return livroId;
+    public LivroAssuntoId() {
     }
 
-    public void setLivroId(Integer livroId) {
-        this.livroId = livroId;
+    public LivroAssuntoId(Integer codL, Integer codAs) {
+        this.livroCodL = codL;
+        this.assuntoCodAs = codAs;
     }
 
-    public Integer getAssuntoId() {
-        return assuntoId;
+    public Integer getLivroCodL() {
+        return livroCodL;
     }
 
-    public void setAssuntoId(Integer assuntoId) {
-        this.assuntoId = assuntoId;
+    public void setLivroCodL(Integer livroId) {
+        this.livroCodL = livroId;
+    }
+
+    public Integer getAssuntoCodAs() {
+        return assuntoCodAs;
+    }
+
+    public void setAssuntoCodAs(Integer assuntoId) {
+        this.assuntoCodAs = assuntoId;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof LivroAssuntoId that)) return false;
-        return Objects.equals(livroId, that.livroId) && Objects.equals(assuntoId, that.assuntoId);
+        return Objects.equals(livroCodL, that.livroCodL) && Objects.equals(assuntoCodAs, that.assuntoCodAs);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(livroId, assuntoId);
+        return Objects.hash(livroCodL, assuntoCodAs);
     }
 }

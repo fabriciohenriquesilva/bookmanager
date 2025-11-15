@@ -15,4 +15,5 @@ public interface LivroAutorRepository extends JpaRepository<LivroAutor, Integer>
 
     List<LivroAutor> findByLivro(Livro livro);
 
+    void deleteByLivroCodLAndAutorCodAu(Integer codL, Integer codAu);
 }

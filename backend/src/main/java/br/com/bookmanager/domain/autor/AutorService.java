@@ -4,7 +4,6 @@ import br.com.bookmanager.domain.autor.dto.AutorCreateRequestDTO;
 import br.com.bookmanager.domain.autor.dto.AutorResponseDTO;
 import br.com.bookmanager.domain.autor.dto.AutorUpdateRequestDTO;
 import br.com.bookmanager.domain.autor.model.Autor;
-import br.com.bookmanager.domain.livro.LivroService;
 import br.com.bookmanager.domain.livro.dto.LivroResponseDTO;
 import br.com.bookmanager.domain.livroautor.LivroAutorService;
 import br.com.bookmanager.domain.livroautor.model.LivroAutor;
@@ -25,26 +24,12 @@ public class AutorService {
     private AutorRepository autorRepository;
 
     @Autowired
-    private LivroService livroService;
-
-    @Autowired
     private LivroAutorService livroAutorService;
 
     public AutorResponseDTO create(AutorCreateRequestDTO request) {
         Autor entity = request.toEntity();
 
         Autor autor = autorRepository.save(entity);
-
-        if (request.livrosId() != null && !request.livrosId().isEmpty()) {
-            for (Integer livroId : request.livrosId()) {
-                var livro = livroService.getLivroOrThrowException(livroId);
-                LivroAutor livroAutor = new LivroAutor();
-                livroAutor.setAutor(autor);
-                livroAutor.setLivro(livro);
-
-                livroAutorService.save(livroAutor);
-            }
-        }
 
         return new AutorResponseDTO(autor);
     }

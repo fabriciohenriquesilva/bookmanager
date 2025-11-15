@@ -10,37 +10,45 @@ import java.util.Objects;
 public class LivroAutorId implements Serializable {
 
     @Column(name = "livro_codl")
-    private Integer livroId;
+    private Integer livroCodL;
 
     @Column(name = "autor_codau")
-    private Integer autorId;
+    private Integer autorCodAu;
 
-    public Integer getLivroId() {
-        return livroId;
+    public LivroAutorId() {
     }
 
-    public void setLivroId(Integer livroId) {
-        this.livroId = livroId;
+    public LivroAutorId(Integer livroCodL, Integer autorCodAu) {
+        this.livroCodL = livroCodL;
+        this.autorCodAu = autorCodAu;
     }
 
-    public Integer getAutorId() {
-        return autorId;
+    public Integer getLivroCodL() {
+        return livroCodL;
     }
 
-    public void setAutorId(Integer autorId) {
-        this.autorId = autorId;
+    public void setLivroCodL(Integer livroId) {
+        this.livroCodL = livroId;
+    }
+
+    public Integer getAutorCodAu() {
+        return autorCodAu;
+    }
+
+    public void setAutorCodAu(Integer autorId) {
+        this.autorCodAu = autorId;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof LivroAutorId that)) return false;
-        return Objects.equals(livroId, that.livroId) &&
-                Objects.equals(autorId, that.autorId);
+        return Objects.equals(livroCodL, that.livroCodL) &&
+                Objects.equals(autorCodAu, that.autorCodAu);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(livroId, autorId);
+        return Objects.hash(livroCodL, autorCodAu);
     }
 }

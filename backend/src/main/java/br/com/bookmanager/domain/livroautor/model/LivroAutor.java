@@ -12,14 +12,23 @@ public class LivroAutor {
     private LivroAutorId id;
 
     @ManyToOne
-    @MapsId("livroId")
+    @MapsId("livroCodL")
     @JoinColumn(name = "livro_codl")
     private Livro livro;
 
     @ManyToOne
-    @MapsId("autorId")
+    @MapsId("autorCodAu")
     @JoinColumn(name = "autor_codau")
     private Autor autor;
+
+    public LivroAutor() {
+    }
+
+    public LivroAutor(Livro livro, Autor autor) {
+        this.id = new LivroAutorId(livro.getCodL(), autor.getCodAu());
+        this.livro = livro;
+        this.autor = autor;
+    }
 
     public LivroAutorId getId() {
         return id;

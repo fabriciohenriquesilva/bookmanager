@@ -1,7 +1,9 @@
 package br.com.bookmanager.domain.livro;
 
 import br.com.bookmanager.domain.assunto.dto.AssuntoResponseDTO;
+import br.com.bookmanager.domain.assunto.model.Assunto;
 import br.com.bookmanager.domain.autor.dto.AutorResponseDTO;
+import br.com.bookmanager.domain.autor.model.Autor;
 import br.com.bookmanager.domain.livro.dto.LivroCreateRequestDTO;
 import br.com.bookmanager.domain.livro.dto.LivroResponseDTO;
 import br.com.bookmanager.domain.livro.dto.LivroUpdateRequestDTO;
@@ -17,7 +19,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -36,6 +41,20 @@ public class LivroService {
         Livro entity = request.toEntity();
 
         Livro livro = livroRepository.save(entity);
+
+        if (request.autoresId() != null && !request.autoresId().isEmpty()) {
+            for (Integer autorId : request.autoresId()) {
+                Autor autor = livroAutorService.getByAutorCodAu(autorId);
+                livroAutorService.save(new LivroAutor(livro, autor));
+            }
+        }
+
+        if (request.assuntosId() != null && !request.assuntosId().isEmpty()) {
+            for (Integer assuntoId : request.assuntosId()) {
+                Assunto assunto = livroAssuntoService.getByAssuntoCodAs(assuntoId);
+                livroAssuntoService.save(new LivroAssunto(livro, assunto));
+            }
+        }
 
         return new LivroResponseDTO(livro);
     }
@@ -59,6 +78,22 @@ public class LivroService {
         livro.setEdicao(request.edicao());
         livro.setAnoPublicacao(request.anoPublicacao());
         livro.setValor(request.valor());
+
+        if (request.autoresId() != null) {
+            if (request.autoresId().isEmpty()) {
+                excluirAutores(livro);
+            } else {
+                atualizarAutores(livro, request.autoresId());
+            }
+        }
+
+        if (request.assuntosId() != null) {
+            if (request.assuntosId().isEmpty()) {
+                excluirAssuntos(livro);
+            } else {
+                atualizarAssuntos(livro, request.assuntosId());
+            }
+        }
 
         return new LivroResponseDTO(livroRepository.save(livro));
     }
@@ -98,5 +133,75 @@ public class LivroService {
                 .map(LivroAutor::getAutor)
                 .map(AutorResponseDTO::new)
                 .toList();
+    }
+
+    private void atualizarAutores(Livro livro, List<Integer> autorRequestList) {
+
+        Set<Integer> autoresAtuais = livroAutorService.findByLivro(livro)
+                .stream()
+                .map(LivroAutor::getAutor)
+                .map(Autor::getCodAu)
+                .collect(Collectors.toSet());
+
+        Set<Integer> autoresRequest = new HashSet<>(autorRequestList);
+
+        // Autores para excluir
+        Set<Integer> autoresExclusao = autoresAtuais.stream()
+                .filter(id -> !autoresRequest.contains(id))
+                .collect(Collectors.toSet());
+
+        for (Integer codAu : autoresExclusao) {
+            livroAutorService.deleteByLivroAndAutor(livro.getCodL(), codAu);
+        }
+
+        // Autores para incluir
+        Set<Integer> autoresInclusao = autoresRequest.stream()
+                .filter(id -> !autoresAtuais.contains(id))
+                .collect(Collectors.toSet());
+
+        for (Integer codAu : autoresInclusao) {
+            Autor autor = livroAutorService.getByAutorCodAu(codAu);
+            livroAutorService.save(new LivroAutor(livro, autor));
+        }
+    }
+
+    private void excluirAutores(Livro livro) {
+        livroAutorService.findByLivro(livro)
+                .forEach(livroAutor -> livroAutorService.delete(livroAutor));
+    }
+
+    private void atualizarAssuntos(Livro livro, List<Integer> assuntoRequestList) {
+
+        Set<Integer> assuntosAtuais = livroAssuntoService.findByLivro(livro)
+                .stream()
+                .map(LivroAssunto::getAssunto)
+                .map(Assunto::getCodAs)
+                .collect(Collectors.toSet());
+
+        Set<Integer> assuntosRequest = new HashSet<>(assuntoRequestList);
+
+        // Assuntos para excluir
+        Set<Integer> assuntosExclusao = assuntosAtuais.stream()
+                .filter(id -> !assuntosRequest.contains(id))
+                .collect(Collectors.toSet());
+
+        for (Integer codAs : assuntosExclusao) {
+            livroAssuntoService.deleteByLivroAndAssunto(livro.getCodL(), codAs);
+        }
+
+        // Assuntos para incluir
+        Set<Integer> assuntosInclusao = assuntosRequest.stream()
+                .filter(id -> !assuntosAtuais.contains(id))
+                .collect(Collectors.toSet());
+
+        for (Integer codAs : assuntosInclusao) {
+            Assunto assunto = livroAssuntoService.getByAssuntoCodAs(codAs);
+            livroAssuntoService.save(new LivroAssunto(livro, assunto));
+        }
+    }
+
+    private void excluirAssuntos(Livro livro) {
+        livroAssuntoService.findByLivro(livro)
+                .forEach(livroAssunto -> livroAssuntoService.delete(livroAssunto));
     }
 }

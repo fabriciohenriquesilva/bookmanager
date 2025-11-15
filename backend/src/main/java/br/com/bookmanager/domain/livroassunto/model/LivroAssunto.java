@@ -12,14 +12,23 @@ public class LivroAssunto {
     private LivroAssuntoId id;
 
     @ManyToOne
-    @MapsId("livroId")
+    @MapsId("livroCodL")
     @JoinColumn(name = "livro_codl")
     private Livro livro;
 
     @ManyToOne
-    @MapsId("assuntoId")
+    @MapsId("assuntoCodAs")
     @JoinColumn(name = "assunto_codas")
     private Assunto assunto;
+
+    public LivroAssunto() {
+    }
+
+    public LivroAssunto(Livro livro, Assunto assunto) {
+        this.id = new LivroAssuntoId(livro.getCodL(), assunto.getCodAs());
+        this.livro = livro;
+        this.assunto = assunto;
+    }
 
     public LivroAssuntoId getId() {
         return id;

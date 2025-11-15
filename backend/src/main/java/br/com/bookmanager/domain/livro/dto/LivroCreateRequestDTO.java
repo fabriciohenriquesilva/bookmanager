@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 public record LivroCreateRequestDTO(@NotBlank
                                     @Size(max = 40)
@@ -20,7 +21,11 @@ public record LivroCreateRequestDTO(@NotBlank
                                     String anoPublicacao,
 
                                     @Digits(integer = 10, fraction = 2)
-                                    BigDecimal valor) {
+                                    BigDecimal valor,
+
+                                    List<Integer> autoresId,
+
+                                    List<Integer> assuntosId) {
 
     public Livro toEntity() {
         var livro = new Livro();

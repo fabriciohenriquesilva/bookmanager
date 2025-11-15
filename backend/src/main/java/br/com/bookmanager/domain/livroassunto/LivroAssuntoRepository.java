@@ -15,4 +15,5 @@ public interface LivroAssuntoRepository extends JpaRepository<LivroAssunto, Inte
 
     List<LivroAssunto> findByAssunto(Assunto assunto);
 
+    void deleteByLivroCodLAndAssuntoCodAs(Integer codL, Integer codAs);
 }
