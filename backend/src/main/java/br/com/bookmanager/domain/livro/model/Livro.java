@@ -2,6 +2,7 @@ package br.com.bookmanager.domain.livro.model;
 
 import br.com.bookmanager.domain.livroassunto.model.LivroAssunto;
 import br.com.bookmanager.domain.livroautor.model.LivroAutor;
+import br.com.bookmanager.infra.exception.RegraDeNegocioException;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -28,7 +29,7 @@ public class Livro {
     @Column(name = "anopublicacao", length = 4)
     private String anoPublicacao;
 
-    @Column(name = "valor")
+    @Column(name = "valor", precision = 10, scale = 2)
     private BigDecimal valor;
 
     @OneToMany(mappedBy = "livro")
@@ -82,6 +83,9 @@ public class Livro {
     }
 
     public void setValor(BigDecimal valor) {
+        if (valor != null && valor.compareTo(BigDecimal.ZERO) < 0) {
+            throw new RegraDeNegocioException("O valor do livro não pode ser menor do que R$ 0.00");
+        }
         this.valor = valor;
     }
 
