@@ -1,4 +1,10 @@
 <main>
+    @if (messageService.message != null) {
+        <div class="alert alert-{{ messageService.type }} text-center mt-4">
+            {{ messageService.message }}
+        </div>
+    }
+
     <router-outlet></router-outlet>
 </main>
 
