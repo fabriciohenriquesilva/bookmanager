@@ -3,7 +3,7 @@
     "version": 1,
     "newProjectRoot": "projects",
     "projects": {
-        "frontend": {
+        "bookmanager-frontend": {
             "projectType": "application",
             "schematics": {
                 "@schematics/angular:component": {
@@ -65,10 +65,10 @@
                     },
                     "configurations": {
                         "production": {
-                            "buildTarget": "frontend:build:production"
+                            "buildTarget": "bookmanager-frontend:build:production"
                         },
                         "development": {
-                            "buildTarget": "frontend:build:development"
+                            "buildTarget": "bookmanager-frontend:build:development"
                         }
                     },
                     "defaultConfiguration": "development"
