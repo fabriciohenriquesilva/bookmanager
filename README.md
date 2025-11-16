@@ -31,7 +31,8 @@ Projeto para teste técnico. É um simples projeto para gerenciar livros, autore
 - [x] Modelagem do banco de dados
 - [x] Criação de View que agrupe os dados por autor
 - [x] Geração de Relatório utilizando view
-- [x]
+- [x] Containerizar a aplicação
+- [ ] Utilizar Bootstrap
 
 ---
 
@@ -46,12 +47,14 @@ docker compose up
 ```
 ou caso queira usar docker compose no modo detached:
 ```bash
-docker-compose up -d
+docker compose up -d
 ```
 
 Esse comando irá gerar os pacotes do projeto frontend e backend, bem como também irá baixar a imagem do banco de dados utilizados. Tudo será configurado e rodará automaticamente.
 
-Para testar abra o seu navegador na URL: [Acesso](http://localhost:4200)
+Para testar a aplicação via web: [http://localhost:4200](http://localhost:4200)
+
+Para testar apenas a API: [http://localhost:8080](http://localhost:8080)
 
 ---
 
