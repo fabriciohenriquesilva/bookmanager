@@ -1,1 +1,83 @@
 /* You can add global styles to this file, and also import other style files */
+@import "bootstrap-icons/font/bootstrap-icons.css";
+
+:root {
+
+  /* Branco */
+  --white-100: #ffffff;
+  --white-200: #f7f7f7;
+  --white-300: #efefef;
+  --white-400: #e7e7e7;
+  --white-500: #dfdfdf;
+  --white-600: #cfcfcf;
+  --white-700: #bfbfbf;
+  --white-800: #a7a7a7;
+  --white-900: #8f8f8f;
+
+  /* Vermelho */
+  --red-100: #ffe5e5;
+  --red-200: #ffb8b8;
+  --red-300: #ff8a8a;
+  --red-400: #ff5c5c;
+  --red-500: #ff2e2e;
+  --red-600: #e50000;
+  --red-700: #b80000;
+  --red-800: #8a0000;
+  --red-900: #5c0000;
+
+  /* Azul */
+  --blue-100: #e5f0ff;
+  --blue-200: #b8d4ff;
+  --blue-300: #8ab8ff;
+  --blue-400: #5c9cff;
+  --blue-500: #2e80ff;
+  --blue-600: #0065e5;
+  --blue-700: #004db8;
+  --blue-800: #00358a;
+  --blue-900: #001e5c;
+
+  /* Verde */
+  --green-100: #e6ffe8;
+  --green-200: #baffc2;
+  --green-300: #8cff9c;
+  --green-400: #5eff75;
+  --green-500: #30ff4e;
+  --green-600: #00e529;
+  --green-700: #00b821;
+  --green-800: #008a19;
+  --green-900: #005c11;
+
+  /* Cinza */
+  --gray-100: #f5f5f5;
+  --gray-200: #e5e5e5;
+  --gray-300: #d4d4d4;
+  --gray-400: #a3a3a3;
+  --gray-500: #737373;
+  --gray-600: #525252;
+  --gray-700: #404040;
+  --gray-800: #262626;
+  --gray-900: #171717;
+
+  /* Preto */
+  --black-100: #d0d0d0;
+  --black-200: #a8a8a8;
+  --black-300: #7f7f7f;
+  --black-400: #555555;
+  --black-500: #2b2b2b;
+  --black-600: #242424;
+  --black-700: #1d1d1d;
+  --black-800: #161616;
+  --black-900: #0f0f0f;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-size: 16px;
+  font-family: Roboto, "Inter", sans-serif;
+}
+
+body {
+  background-color: var(--white-300);
+}
