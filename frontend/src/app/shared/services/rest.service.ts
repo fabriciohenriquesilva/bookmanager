@@ -1,17 +1,15 @@
 import {HttpClient} from '@angular/common/http';
-import {Inject, inject, Injectable} from '@angular/core';
+import {Inject, inject} from '@angular/core';
 import {Observable, take} from 'rxjs';
 
-@Injectable({
-    providedIn: 'root'
-})
-export class RestService<T extends {getId(): number}> {
+export class RestService<T> {
 
     private _http = inject(HttpClient);
     private _apiUrl: string;
 
     constructor(
-        @Inject(String) protected _endpoint: string
+        @Inject(String) protected _endpoint: string,
+        private idResolver: IdResolver<T>
     ) {
         this._apiUrl = `api/${this._endpoint}`;
     }
@@ -26,7 +24,7 @@ export class RestService<T extends {getId(): number}> {
     }
 
     save(entity: T): Observable<any> {
-        if (entity.getId()) {
+        if (this.idResolver(entity) != null) {
             return this.update(entity);
         }
         return this.create(entity);
@@ -44,3 +42,5 @@ export class RestService<T extends {getId(): number}> {
         return this._http.put(this._apiUrl, entity).pipe(take(1));
     }
 }
+
+export type IdResolver<T> = (entity: T) => number;

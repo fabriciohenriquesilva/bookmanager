@@ -6,7 +6,7 @@ import {Assunto} from './assunto';
 export class AssuntoService extends RestService<Assunto> {
 
     constructor() {
-        super("assuntos");
+        super("assuntos", assunto => assunto.codAs!);
     }
 
 }
