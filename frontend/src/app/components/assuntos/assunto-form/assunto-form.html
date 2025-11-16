@@ -1,0 +1,33 @@
+<header class="header mt-5">
+    <div class="d-flex justify-content-between align-items-center">
+        <h1 class="header-title">Cadastro de Assunto</h1>
+        <div>
+            <button class="btn btn-light me-2" [routerLink]="'/assuntos'">Voltar</button>
+            <button class="btn btn-danger me-2" (click)="excluir()">Excluir</button>
+            <button class="btn btn-success" (click)="salvar()">Salvar</button>
+        </div>
+    </div>
+</header>
+
+<hr>
+
+<form>
+    @if (model.codAs != null) {
+        <div class="mb-3" style="width: 150px">
+            <label for="codigo" class="form-label">Código</label>
+            <input class="form-control"
+                   id="codigo"
+                   [(ngModel)]="model.codAs"
+                   [disabled]="model.codAs != null"
+                   name="codigo">
+        </div>
+    }
+
+    <div class="mb-3" style="width: 350px">
+        <label for="descricao" class="form-label">Nome</label>
+        <input class="form-control"
+               id="descricao"
+               [(ngModel)]="model.descricao"
+               name="descricao">
+    </div>
+</form>
