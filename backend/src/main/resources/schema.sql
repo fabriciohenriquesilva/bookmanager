@@ -53,3 +53,21 @@ CREATE TABLE IF NOT EXISTS livro_assunto
 
 CREATE INDEX IF NOT EXISTS livro_assunto_fkindex1 ON livro_assunto (livro_codl);
 CREATE INDEX IF NOT EXISTS livro_assunto_fkindex2 ON livro_assunto (assunto_codas);
+
+CREATE OR REPLACE VIEW vw_relatorio_autor_livro AS
+SELECT L.CODL                                                 AS CODLIVRO,
+       AT.CODAU                                               AS CODAUTOR,
+       AT.NOME                                                AS AUTOR,
+       L.TITULO                                               AS LIVRO,
+       STRING_AGG(ASS.DESCRICAO, ', ' ORDER BY ASS.DESCRICAO) AS ASSUNTOS,
+       L.EDITORA,
+       L.EDICAO,
+       L.ANOPUBLICACAO
+FROM AUTOR AT
+         JOIN LIVRO_AUTOR LT ON AT.CODAU = LT.AUTOR_CODAU
+         JOIN LIVRO L ON LT.LIVRO_CODL = L.CODL
+         LEFT JOIN LIVRO_ASSUNTO LA ON L.CODL = LA.LIVRO_CODL
+         LEFT JOIN ASSUNTO ASS ON LA.ASSUNTO_CODAS = ASS.CODAS
+GROUP BY L.CODL, AT.CODAU, L.CODL, AT.NOME, L.TITULO, L.EDITORA, L.EDICAO, L.ANOPUBLICACAO
+ORDER BY AT.NOME, L.TITULO;
+

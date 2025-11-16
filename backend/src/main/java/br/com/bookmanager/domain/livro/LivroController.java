@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -59,5 +61,15 @@ public class LivroController {
     @GetMapping("/{codL}/autores")
     public ResponseEntity<List<AutorResponseDTO>> getAutoresByLivro(@PathVariable("codL") Integer codL) {
         return ResponseEntity.ok(livroService.getAutores(codL));
+    }
+
+    @GetMapping("/report")
+    public ResponseEntity<byte[]> relatorio() {
+        byte[] relatorio = livroService.relatorio();
+
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.set(HttpHeaders.CONTENT_DISPOSITION, "inline;filename=livros.pdf");
+
+        return ResponseEntity.ok().headers(httpHeaders).contentType(MediaType.APPLICATION_PDF).body(relatorio);
     }
 }

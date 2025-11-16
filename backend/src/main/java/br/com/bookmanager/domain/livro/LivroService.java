@@ -1,10 +1,12 @@
 package br.com.bookmanager.domain.livro;
 
+import br.com.bookmanager.core.ReportService;
 import br.com.bookmanager.domain.assunto.dto.AssuntoResponseDTO;
 import br.com.bookmanager.domain.assunto.model.Assunto;
 import br.com.bookmanager.domain.autor.dto.AutorResponseDTO;
 import br.com.bookmanager.domain.autor.model.Autor;
 import br.com.bookmanager.domain.livro.dto.LivroCreateRequestDTO;
+import br.com.bookmanager.domain.livro.dto.LivroReportDTO;
 import br.com.bookmanager.domain.livro.dto.LivroResponseDTO;
 import br.com.bookmanager.domain.livro.dto.LivroUpdateRequestDTO;
 import br.com.bookmanager.domain.livro.model.Livro;
@@ -19,6 +21,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -36,6 +39,9 @@ public class LivroService {
 
     @Autowired
     private LivroAutorService livroAutorService;
+
+    @Autowired
+    private ReportService reportService;
 
     public LivroResponseDTO create(LivroCreateRequestDTO request) {
         Livro entity = request.toEntity();
@@ -203,5 +209,13 @@ public class LivroService {
     private void excluirAssuntos(Livro livro) {
         livroAssuntoService.findByLivro(livro)
                 .forEach(livroAssunto -> livroAssuntoService.delete(livroAssunto));
+    }
+
+    public byte[] relatorio() {
+        List<LivroReportDTO> dataSource = livroRepository.relatorio();
+
+        String reportPath = "/reports/livros/livros.jrxml";
+
+        return this.reportService.createReport(reportPath, new HashMap<>(), dataSource);
     }
 }
