@@ -7,7 +7,7 @@ import {FormsModule} from '@angular/forms';
 import {MessageService} from '../../../shared/services/message.service';
 
 @Component({
-    selector: 'app-assunto-form',
+    selector: 'assunto-form',
     imports: [RouterModule, FormsModule, CommonModule],
     templateUrl: './assunto-form.html',
     styleUrl: './assunto-form.scss',

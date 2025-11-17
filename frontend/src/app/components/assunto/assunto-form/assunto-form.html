@@ -18,13 +18,13 @@
             <input class="form-control"
                    id="codigo"
                    [(ngModel)]="model.codAs"
-                   [disabled]="model.codAs != null"
+                   [disabled]="true"
                    name="codigo">
         </div>
     }
 
     <div class="mb-3" style="width: 350px">
-        <label for="descricao" class="form-label">Nome</label>
+        <label for="descricao" class="form-label">Descrição</label>
         <input class="form-control"
                id="descricao"
                [(ngModel)]="model.descricao"

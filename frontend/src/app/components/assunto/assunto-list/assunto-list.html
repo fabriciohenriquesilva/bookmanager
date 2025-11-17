@@ -19,7 +19,7 @@
     </tr>
     </thead>
     <tbody>
-        @for (assunto of assuntoList; track $index) {
+        @for (assunto of dataSource; track $index) {
             <tr>
                 <th style="text-align: end">{{ assunto.codAs }}</th>
                 <td>{{ assunto.descricao }}</td>

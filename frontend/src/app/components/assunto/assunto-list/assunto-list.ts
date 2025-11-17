@@ -13,17 +13,15 @@ import {Assunto} from '../assunto';
 })
 export class AssuntoList implements OnInit {
 
-    assuntoList: Assunto[] = [];
+    dataSource: Assunto[] = [];
 
     constructor(private assuntoService: AssuntoService) {
     }
 
     ngOnInit(): void {
         this.assuntoService.list().subscribe(data => {
-            this.assuntoList = data.content;
-            console.log(data)
+            this.dataSource = data.content;
         });
     }
-
 
 }
