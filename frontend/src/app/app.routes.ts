@@ -1,6 +1,6 @@
-import {AssuntoList} from './components/assuntos/assunto-list/assunto-list';
+import {AssuntoList} from './components/assunto/assunto-list/assunto-list';
 import {Home} from './components/home/home';
-import {AssuntoForm} from './components/assuntos/assunto-form/assunto-form';
+import {AssuntoForm} from './components/assunto/assunto-form/assunto-form';
 
 export const routes: { path: string; component: any }[] = [
     {
