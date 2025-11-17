@@ -19,4 +19,7 @@ export class Card {
     @Input({required: true})
     info: string = '';
 
+    @Input({required: true})
+    route: string = '';
+
 }
