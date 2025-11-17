@@ -1,0 +1,38 @@
+<header class="header mt-5">
+    <div class="d-flex justify-content-between align-items-center">
+        <h1 class="header-title">Cadastro de Livros</h1>
+        <div>
+            <button class="btn btn-light me-2" [routerLink]="'/'">Voltar</button>
+            <button class="btn btn-success" [routerLink]="'/livros/create'">Novo</button>
+        </div>
+    </div>
+</header>
+
+<hr>
+
+<table class="table table-striped table-bordered">
+    <thead>
+    <tr>
+        <th class="align-middle text-end" style="width: 100px">Código</th>
+        <th class="align-middle">Título</th>
+        <th class="align-middle">Editora</th>
+        <th class="align-middle" style="width: 100px">Edição</th>
+        <th class="align-middle text-end" style="width: 100px">Ano Publicação</th>
+        <th class="align-middle text-end" style="width: 100px">Valor</th>
+        <th class="align-middle" style="width: 100px; text-align: center">Ação</th>
+    </tr>
+    </thead>
+    <tbody>
+        @for (livro of dataSource; track $index) {
+            <tr>
+                <th class="text-end">{{ livro.codL }}</th>
+                <td>{{ livro.titulo }}</td>
+                <td>{{ livro.editora }}</td>
+                <td>{{ livro.edicao }}</td>
+                <td class="text-end">{{ livro.anoPublicacao }}</td>
+                <td class="text-end">{{ livro.valor | number: '1.2-2' : 'pt-BR' }}</td>
+                <td style="text-align: center"><button class="btn btn-primary" [routerLink]="['/livros/edit/', livro.codL]">Editar</button>
+            </tr>
+        }
+    </tbody>
+</table>

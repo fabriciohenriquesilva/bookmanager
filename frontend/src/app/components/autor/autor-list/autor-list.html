@@ -19,7 +19,7 @@
     </tr>
     </thead>
     <tbody>
-        @for (autor of autorList; track $index) {
+        @for (autor of dataSource; track $index) {
             <tr>
                 <th style="text-align: end">{{ autor.codAu }}</th>
                 <td>{{ autor.nome }}</td>

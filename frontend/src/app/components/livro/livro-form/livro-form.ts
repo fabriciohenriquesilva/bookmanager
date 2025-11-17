@@ -1,24 +1,25 @@
-import {Component, OnInit} from '@angular/core';
-import {Autor} from '../autor';
+import {Component} from '@angular/core';
 import {MessageService} from '../../../shared/services/message.service';
-import {AutorService} from '../autor.service';
+import {Livro} from '../livro';
+import {LivroService} from '../livro.service';
 import {ActivatedRoute, Router, RouterModule} from '@angular/router';
 import {FormsModule} from '@angular/forms';
 import {CommonModule} from '@angular/common';
+import {CurrencyBrDirective} from '../../../shared/directive/currency-br.directive';
 
 @Component({
-    selector: 'autor-form',
-    imports: [RouterModule, FormsModule, CommonModule],
-    templateUrl: './autor-form.html',
-    styleUrl: './autor-form.scss',
+    selector: 'livro-form',
+    imports: [RouterModule, FormsModule, CommonModule, CurrencyBrDirective],
+    templateUrl: './livro-form.html',
+    styleUrl: './livro-form.scss',
     standalone: true,
-    providers: [AutorService]
+    providers: [LivroService]
 })
-export class AutorForm implements OnInit {
+export class LivroForm {
 
-    model: Autor = new Autor();
+    model: Livro = new Livro();
 
-    constructor(private autorService: AutorService,
+    constructor(private livroService: LivroService,
                 private activatedRoute: ActivatedRoute,
                 private messageService: MessageService,
                 private router: Router) {
@@ -28,17 +29,17 @@ export class AutorForm implements OnInit {
         const id: number = this.activatedRoute.snapshot.params['id'] as number;
 
         if (id) {
-            this.autorService.getById(id).subscribe(data => {
+            this.livroService.getById(id).subscribe(data => {
                 this.model = data;
             });
         }
     }
 
     salvar(): void {
-        this.autorService.save(this.model).subscribe({
-            next: (autor: Autor) => {
+        this.livroService.save(this.model).subscribe({
+            next: (livro: Livro) => {
                 this.messageService.show('Registro salvo com sucesso!', 'success');
-                setTimeout(() => this.router.navigate(['/autores/edit/', autor.codAu]), 1500);
+                setTimeout(() => this.router.navigate(['/livros/edit/', livro.codL]), 1500);
             },
             error: (err) => {
                 console.error(err);
@@ -49,10 +50,10 @@ export class AutorForm implements OnInit {
     }
 
     excluir(): void {
-        this.autorService.remove(this.model.codAu!).subscribe({
+        this.livroService.remove(this.model.codL!).subscribe({
             next: (data: any) => {
                 this.messageService.show('Registro excluído com sucesso!', 'success');
-                setTimeout(() => this.router.navigate(['/autores']), 2000)
+                setTimeout(() => this.router.navigate(['/livros']), 2000)
             },
             error: (err) => {
                 console.error(err);
@@ -62,5 +63,4 @@ export class AutorForm implements OnInit {
             }
         });
     }
-
 }

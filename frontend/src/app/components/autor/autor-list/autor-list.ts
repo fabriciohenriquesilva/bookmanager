@@ -13,14 +13,14 @@ import {Autor} from '../autor';
 })
 export class AutorList {
 
-    autorList: Autor[] = [];
+    dataSource: Autor[] = [];
 
     constructor(private autorService: AutorService) {
     }
 
     ngOnInit(): void {
         this.autorService.list().subscribe(data => {
-            this.autorList = data.content;
+            this.dataSource = data.content;
         });
     }
 }

@@ -3,6 +3,8 @@ import {Home} from './components/home/home';
 import {AssuntoForm} from './components/assunto/assunto-form/assunto-form';
 import {AutorList} from './components/autor/autor-list/autor-list';
 import {AutorForm} from './components/autor/autor-form/autor-form';
+import {LivroList} from './components/livro/livro-list/livro-list';
+import {LivroForm} from './components/livro/livro-form/livro-form';
 
 export const routes: { path: string; component: any }[] = [
     {
@@ -33,5 +35,16 @@ export const routes: { path: string; component: any }[] = [
         path: 'autores/create',
         component: AutorForm
     },
-
+    {
+        path: 'livros',
+        component: LivroList
+    },
+    {
+        path: 'livros/edit/:id',
+        component: LivroForm
+    },
+    {
+        path: 'livros/create',
+        component: LivroForm
+    },
 ];
