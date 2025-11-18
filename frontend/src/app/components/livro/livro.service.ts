@@ -19,4 +19,12 @@ export class LivroService extends RestService<Livro> {
     getAssuntosByLivro(codL: number): Observable<Assunto[]> {
         return this._http.get<Assunto[]>(`${this._apiUrl}/${codL}/assuntos`).pipe(take(1));
     }
+
+    findByTitulo(titulo: string): Observable<Livro[]> {
+        return this._http.get<Livro[]>(`${this._apiUrl}/search`, {
+            params: {
+                titulo: titulo
+            }
+        }).pipe(take(1));
+    }
 }

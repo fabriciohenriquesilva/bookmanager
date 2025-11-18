@@ -23,23 +23,23 @@ export class RestService<T> {
         return this._http.get<T>(url).pipe(take(1));
     }
 
-    save(entity: T): Observable<any> {
+    save(entity: T): Observable<T> {
         if (this.idResolver(entity) != null) {
             return this.update(entity);
         }
         return this.create(entity);
     }
 
-    remove(id: number) {
+    remove(id: number): Observable<any> {
         return this._http.delete(`${this._apiUrl}/${id}`).pipe(take(1));
     }
 
-    private create(entity: T) {
-        return this._http.post(this._apiUrl, entity).pipe(take(1));
+    private create(entity: T): Observable<T> {
+        return this._http.post<T>(this._apiUrl, entity).pipe(take(1));
     }
 
-    private update(entity: T) {
-        return this._http.put(this._apiUrl, entity).pipe(take(1));
+    private update(entity: T): Observable<T> {
+        return this._http.put<T>(this._apiUrl, entity).pipe(take(1));
     }
 }
 

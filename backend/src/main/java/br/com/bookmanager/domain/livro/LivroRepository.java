@@ -13,4 +13,6 @@ public interface LivroRepository extends JpaRepository<Livro, Integer> {
 
     @NativeQuery("SELECT * FROM vw_relatorio_autor_livro")
     List<LivroReportDTO> relatorio();
+
+    List<Livro> findByTituloIgnoreCaseContaining(String titulo);
 }

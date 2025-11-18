@@ -11,23 +11,88 @@
 
 <hr>
 
-<form>
-    @if (model.codAs != null) {
-        <div class="mb-3" style="width: 150px">
-            <label for="codigo" class="form-label">Código</label>
-            <input class="form-control"
-                   id="codigo"
-                   [(ngModel)]="model.codAs"
-                   [disabled]="true"
-                   name="codigo">
-        </div>
-    }
+<ul class="nav nav-tabs">
+    <li class="nav-item" role="presentation">
+        <a class="nav-link active" data-bs-toggle="tab" data-bs-target="#dados" role="tab">Dados do Assunto</a>
+    </li>
+    <li class="nav-item" role="presentation">
+        <a class="nav-link" data-bs-toggle="tab" data-bs-target="#livros" role="tab">Livros</a>
+    </li>
+</ul>
 
-    <div class="mb-3" style="width: 350px">
-        <label for="descricao" class="form-label">Descrição</label>
-        <input class="form-control"
-               id="descricao"
-               [(ngModel)]="model.descricao"
-               name="descricao">
+<div class="tab-content mt-3">
+
+    <!-- TAB DADOS GERAIS -->
+    <div class="tab-pane fade show active" id="dados" role="tabpanel">
+        <form>
+            @if (model.codAs != null) {
+                <div class="mb-3" style="width: 150px">
+                    <label for="codigo" class="form-label">Código</label>
+                    <input class="form-control"
+                           id="codigo"
+                           [(ngModel)]="model.codAs"
+                           [disabled]="true"
+                           name="codigo">
+                </div>
+            }
+
+            <div class="mb-3" style="width: 350px">
+                <label for="descricao" class="form-label">Descrição</label>
+                <input class="form-control"
+                       id="descricao"
+                       [(ngModel)]="model.descricao"
+                       name="descricao">
+            </div>
+        </form>
     </div>
-</form>
+
+    <!-- TAB LIVROS -->
+    <div class="tab-pane fade" id="livros" role="tabpanel">
+
+        <div class="autocomplete-container position-relative" >
+            <div class="mb-3" style="width: 400px">
+                <label>Adicionar assunto</label>
+                <input type="text"
+                       class="form-control"
+                       placeholder="Digite o título do livro..."
+                       (focus)="livroAutocompleteVisible = true"
+                       (focusout)="livroAutocompleteVisible = false"
+                       (input)="onSearchLivro($event.target.value)">
+
+                <ul class="list-group position-absolute shadow-sm" style="z-index: 999; width: 400px; max-height: 200px; overflow-y: auto;">
+                    @if (livroAutocompleteList.length && livroAutocompleteVisible) {
+
+                        @for (livro of livroAutocompleteList; track $index) {
+                            <li class="list-group-item list-group-item-action"
+                                [style.cursor]="'pointer'"
+                                (mousedown)="adicionarLivro(livro)">
+                                {{ livro.titulo }}
+                            </li>
+                        }
+                    }
+                </ul>
+            </div>
+        </div>
+
+        <table class="table table-striped mt-3">
+            <thead>
+            <tr>
+                <th style="width: 100px" class="text-end" >Código</th>
+                <th>Título</th>
+                <th style="width: 100px" class="text-center">Ações</th>
+            </tr>
+            </thead>
+            <tbody>
+                @for (livro of livroList; track $index) {
+                    <tr>
+                        <td class="text-end">{{ livro.codL }}</td>
+                        <td>{{ livro.titulo }}</td>
+                        <td class="text-center">
+                            <button class="btn btn-danger btn-sm" (click)="removerLivro(livro)">Remover</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

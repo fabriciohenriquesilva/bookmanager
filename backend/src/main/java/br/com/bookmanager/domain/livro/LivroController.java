@@ -72,4 +72,9 @@ public class LivroController {
 
         return ResponseEntity.ok().headers(httpHeaders).contentType(MediaType.APPLICATION_PDF).body(relatorio);
     }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<LivroResponseDTO>> findByTitulo(@RequestParam("titulo") String titulo) {
+        return ResponseEntity.ok(livroService.findByTitulo(titulo));
+    }
 }

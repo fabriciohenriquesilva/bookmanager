@@ -218,4 +218,11 @@ public class LivroService {
 
         return this.reportService.createReport(reportPath, new HashMap<>(), dataSource);
     }
+
+    public List<LivroResponseDTO> findByTitulo(String titulo) {
+        return livroRepository.findByTituloIgnoreCaseContaining(titulo)
+                .stream()
+                .map(LivroResponseDTO::new)
+                .toList();
+    }
 }
