@@ -55,4 +55,9 @@ public class AutorController {
         return ResponseEntity.ok(autorService.getLivros(codAu));
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<List<AutorResponseDTO>> findByNome(@RequestParam("nome") String nome) {
+        return ResponseEntity.ok(autorService.findByNome(nome));
+    }
+
 }

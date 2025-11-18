@@ -4,6 +4,7 @@ import br.com.bookmanager.domain.assunto.dto.AssuntoCreateRequestDTO;
 import br.com.bookmanager.domain.assunto.dto.AssuntoResponseDTO;
 import br.com.bookmanager.domain.assunto.dto.AssuntoUpdateRequestDTO;
 import br.com.bookmanager.domain.assunto.model.Assunto;
+import br.com.bookmanager.domain.autor.dto.AutorResponseDTO;
 import br.com.bookmanager.domain.livro.dto.LivroResponseDTO;
 import br.com.bookmanager.domain.livroassunto.LivroAssuntoService;
 import br.com.bookmanager.domain.livroassunto.model.LivroAssunto;
@@ -75,4 +76,10 @@ public class AssuntoService {
                 .orElseThrow(() -> new RegistroNaoEncontradoException(codAs));
     }
 
+    public List<AssuntoResponseDTO> findByNome(String descricao) {
+        return assuntoRepository.findByDescricaoIgnoreCaseContaining(descricao)
+                .stream()
+                .map(AssuntoResponseDTO::new)
+                .toList();
+    }
 }

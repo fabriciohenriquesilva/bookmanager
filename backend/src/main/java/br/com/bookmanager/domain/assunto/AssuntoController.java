@@ -3,6 +3,7 @@ package br.com.bookmanager.domain.assunto;
 import br.com.bookmanager.domain.assunto.dto.AssuntoCreateRequestDTO;
 import br.com.bookmanager.domain.assunto.dto.AssuntoResponseDTO;
 import br.com.bookmanager.domain.assunto.dto.AssuntoUpdateRequestDTO;
+import br.com.bookmanager.domain.autor.dto.AutorResponseDTO;
 import br.com.bookmanager.domain.livro.dto.LivroResponseDTO;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,6 +54,11 @@ public class AssuntoController {
     @GetMapping("/{codAs}/livros")
     public ResponseEntity<List<LivroResponseDTO>> getLivrosByAssunto(@PathVariable("codAs") Integer codAs) {
         return ResponseEntity.ok(assuntoService.getLivros(codAs));
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<AssuntoResponseDTO>> findByDescricao(@RequestParam("descricao") String descricao) {
+        return ResponseEntity.ok(assuntoService.findByNome(descricao));
     }
 
 }

@@ -4,8 +4,8 @@ import {Observable, take} from 'rxjs';
 
 export class RestService<T> {
 
-    private _http = inject(HttpClient);
-    private _apiUrl: string;
+    protected _http = inject(HttpClient);
+    protected _apiUrl: string;
 
     constructor(
         @Inject(String) protected _endpoint: string,

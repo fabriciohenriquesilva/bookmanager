@@ -11,61 +11,178 @@
 
 <hr>
 
-<form>
-    @if (model.codL != null) {
-        <div class="mb-3" style="width: 150px">
-            <label for="codigo" class="form-label">Código</label>
-            <input class="form-control"
-                   id="codigo"
-                   [(ngModel)]="model.codL"
-                   [disabled]="true"
-                   name="codigo">
+<ul class="nav nav-tabs">
+    <li class="nav-item" role="presentation">
+        <a class="nav-link active" data-bs-toggle="tab" data-bs-target="#dados" role="tab">Dados do Livro</a>
+    </li>
+    <li class="nav-item" role="presentation">
+        <a class="nav-link" data-bs-toggle="tab" data-bs-target="#assuntos" role="tab">Assuntos</a>
+    </li>
+    <li class="nav-item" role="presentation">
+        <a class="nav-link" data-bs-toggle="tab" data-bs-target="#autores" role="tab">Autores</a>
+    </li>
+</ul>
+
+<div class="tab-content mt-3">
+    <!-- TAB DADOS GERAIS -->
+    <div class="tab-pane fade show active" id="dados" role="tabpanel">
+        <form>
+            @if (model.codL != null) {
+                <div class="mb-3" style="width: 150px">
+                    <label for="codigo" class="form-label">Código</label>
+                    <input class="form-control"
+                           id="codigo"
+                           [(ngModel)]="model.codL"
+                           [disabled]="true"
+                           name="codigo">
+                </div>
+            }
+
+            <div class="mb-3" style="width: 350px">
+                <label for="nome" class="form-label">Título</label>
+                <input class="form-control"
+                       id="nome"
+                       [(ngModel)]="model.titulo"
+                       name="nome">
+            </div>
+
+            <div class="mb-3" style="width: 350px">
+                <label for="editora" class="form-label">Editora</label>
+                <input class="form-control"
+                       id="editora"
+                       [(ngModel)]="model.editora"
+                       name="editora">
+            </div>
+
+            <div class="mb-3" style="width: 150px">
+                <label for="edicao" class="form-label">Edição</label>
+                <input class="form-control"
+                       id="edicao"
+                       [(ngModel)]="model.edicao"
+                       name="edicao">
+            </div>
+
+            <div class="mb-3" style="width: 150px">
+                <label for="anoPublicacao" class="form-label">Ano de Publicação</label>
+                <input class="form-control"
+                       id="anoPublicacao"
+                       [(ngModel)]="model.anoPublicacao"
+                       name="anoPublicacao">
+            </div>
+
+            <label for="valor" class="form-label">Valor</label>
+            <div class="input-group mb-3" style="width: 200px">
+
+                <span class="input-group-text">R$</span>
+                <input class="form-control text-end"
+                       type="text"
+                       inputmode="decimal"
+                       placeholder="0,00"
+                       currencyBr
+                       id="valor"
+                       [(ngModel)]="model.valor"
+                       name="valor">
+            </div>
+        </form>
+    </div>
+
+    <!-- TAB ASSUNTOS -->
+    <div class="tab-pane fade" id="assuntos" role="tabpanel">
+
+        <div class="autocomplete-container position-relative" >
+            <div class="mb-3" style="width: 400px">
+                <label>Adicionar assunto</label>
+                <input type="text"
+                       class="form-control"
+                       placeholder="Digite o nome do assunto..."
+                       (focus)="assuntoAutocompleteVisible = true"
+                       (focusout)="assuntoAutocompleteVisible = false"
+                       (input)="onSearchAssunto($event.target.value)">
+
+                <ul class="list-group position-absolute shadow-sm" style="z-index: 999; width: 400px; max-height: 200px; overflow-y: auto;">
+                    @if (assuntoAutocompleteList.length && assuntoAutocompleteVisible) {
+
+                        @for (assunto of assuntoAutocompleteList; track $index) {
+                            <li class="list-group-item list-group-item-action"
+                                [style.cursor]="'pointer'"
+                                (mousedown)="adicionarAssunto(assunto)">
+                                {{ assunto.descricao }}
+                            </li>
+                        }
+                    }
+                </ul>
+            </div>
         </div>
-    }
 
-    <div class="mb-3" style="width: 350px">
-        <label for="nome" class="form-label">Título</label>
-        <input class="form-control"
-               id="nome"
-               [(ngModel)]="model.titulo"
-               name="nome">
+        <table class="table table-striped mt-3">
+            <thead>
+            <tr>
+                <th style="width: 100px" class="text-end" >Código</th>
+                <th>Descrição</th>
+                <th style="width: 100px" class="text-center">Ações</th>
+            </tr>
+            </thead>
+            <tbody>
+                @for (assunto of assuntoList; track $index) {
+                    <tr>
+                        <td class="text-end">{{ assunto.codAs }}</td>
+                        <td>{{ assunto.descricao }}</td>
+                        <td class="text-center">
+                            <button class="btn btn-danger btn-sm" (click)="removerAssunto(assunto)">Remover</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
     </div>
 
-    <div class="mb-3" style="width: 350px">
-        <label for="editora" class="form-label">Editora</label>
-        <input class="form-control"
-               id="editora"
-               [(ngModel)]="model.editora"
-               name="editora">
-    </div>
+    <!-- TAB AUTORES -->
+    <div class="tab-pane fade" id="autores" role="tabpanel">
 
-    <div class="mb-3" style="width: 150px">
-        <label for="edicao" class="form-label">Edição</label>
-        <input class="form-control"
-               id="edicao"
-               [(ngModel)]="model.edicao"
-               name="edicao">
-    </div>
+        <div class="autocomplete-container position-relative" >
+            <div class="mb-3" style="width: 400px">
+                <label>Adicionar autor</label>
+                <input type="text"
+                       class="form-control"
+                       placeholder="Digite o nome do autor..."
+                       (focus)="autorAutocompleteVisible = true"
+                       (focusout)="autorAutocompleteVisible = false"
+                       (input)="onSearchAutor($event.target.value)">
 
-    <div class="mb-3" style="width: 150px">
-        <label for="anoPublicacao" class="form-label">Ano de Publicação</label>
-        <input class="form-control"
-               id="anoPublicacao"
-               [(ngModel)]="model.anoPublicacao"
-               name="anoPublicacao">
-    </div>
+                <ul class="list-group position-absolute shadow-sm" style="z-index: 999; width: 400px; max-height: 200px; overflow-y: auto;">
+                    @if (autorAutocompleteList.length && autorAutocompleteVisible) {
 
-    <label for="valor" class="form-label">Valor</label>
-    <div class="input-group mb-3" style="width: 200px">
+                        @for (autor of autorAutocompleteList; track $index) {
+                            <li class="list-group-item list-group-item-action"
+                                [style.cursor]="'pointer'"
+                                (mousedown)="adicionarAutor(autor)">
+                                {{ autor.nome }}
+                            </li>
+                        }
+                    }
+                </ul>
+            </div>
+        </div>
 
-        <span class="input-group-text">R$</span>
-        <input class="form-control text-end"
-               type="text"
-               inputmode="decimal"
-               placeholder="0,00"
-               currencyBr
-               id="valor"
-               [(ngModel)]="model.valor"
-               name="valor">
+        <table class="table table-striped mt-3">
+            <thead>
+            <tr>
+                <th style="width: 100px" class="text-end" >Código</th>
+                <th>Autor</th>
+                <th style="width: 100px" class="text-center">Ações</th>
+            </tr>
+            </thead>
+            <tbody>
+                @for (autor of autorList; track $index) {
+                    <tr>
+                        <td class="text-end">{{ autor.codAu }}</td>
+                        <td>{{ autor.nome }}</td>
+                        <td class="text-center">
+                            <button class="btn btn-danger btn-sm" (click)="removerAutor(autor)">Remover</button>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
     </div>
-</form>
+</div>

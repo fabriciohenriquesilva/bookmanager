@@ -77,4 +77,10 @@ public class AutorService {
                 .orElseThrow(() -> new RegistroNaoEncontradoException(codAu));
     }
 
+    public List<AutorResponseDTO> findByNome(String nome) {
+        return autorRepository.findByNomeIgnoreCaseContaining(nome)
+                .stream()
+                .map(AutorResponseDTO::new)
+                .toList();
+    }
 }
