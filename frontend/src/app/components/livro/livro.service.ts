@@ -27,4 +27,10 @@ export class LivroService extends RestService<Livro> {
             }
         }).pipe(take(1));
     }
+
+    relatorio(): Observable<any> {
+        return this._http.get(`${this._apiUrl}/relatorio`, {
+            responseType: 'blob' as 'json'
+        }).pipe(take(1));
+    }
 }

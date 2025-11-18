@@ -25,4 +25,15 @@ export class LivroList implements OnInit {
         });
     }
 
+    relatorio(): void {
+        this.livroService.relatorio().subscribe({
+            next: (blob) => {
+                const fileURL = URL.createObjectURL(blob);
+                window.open(fileURL, '_blank');
+            },
+            error: (err) => {
+                console.error(err);
+            }
+        });
+    }
 }

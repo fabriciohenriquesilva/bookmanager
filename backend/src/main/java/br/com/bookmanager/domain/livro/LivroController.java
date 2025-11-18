@@ -63,7 +63,7 @@ public class LivroController {
         return ResponseEntity.ok(livroService.getAutores(codL));
     }
 
-    @GetMapping("/report")
+    @GetMapping("/relatorio")
     public ResponseEntity<byte[]> relatorio() {
         byte[] relatorio = livroService.relatorio();
 
