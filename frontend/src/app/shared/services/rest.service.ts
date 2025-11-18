@@ -1,6 +1,7 @@
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import {Inject, inject} from '@angular/core';
 import {Observable, take} from 'rxjs';
+import {Page} from '../models/page';
 
 export class RestService<T> {
 
@@ -14,8 +15,14 @@ export class RestService<T> {
         this._apiUrl = `api/${this._endpoint}`;
     }
 
-    list(): Observable<any> {
-        return this._http.get(this._apiUrl).pipe(take(1));
+    list(page: number = 0): Observable<Page<T>> {
+        let params = new HttpParams();
+
+        if (page > 0) {
+            params = params.set('page', page);
+        }
+
+        return this._http.get<Page<T>>(this._apiUrl, {params}).pipe(take(1));
     }
 
     getById(id: number | string) {

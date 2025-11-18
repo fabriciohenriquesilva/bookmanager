@@ -1,0 +1,36 @@
+<div class="pagination mt-3">
+    <p>Exibindo entre <strong>{{ (page.number * page.size) + 1 }}</strong> - <strong>{{ (page.number + 1) * page.size }}</strong>
+        de <strong>{{ page.totalElements }}</strong> resultados</p>
+
+    <nav aria-label="Page navigation example">
+
+        <ul class="pagination justify-content-end">
+
+            @if (!page.first) {
+                <li class="page-item">
+                    <button class="page-link" (click)="trocarPagina(0)">Primeira</button>
+                </li>
+
+                <li class="page-item">
+                    <button class="page-link" (click)="trocarPagina(page.number - 1)">{{ page.number }}</button>
+                </li>
+            }
+
+            <li class="page-item active">
+                <button class="page-link" (click)="trocarPagina(page.number)">{{ page.number + 1}}</button>
+            </li>
+
+            @if (!page.last) {
+                <li class="page-item">
+                    <button class="page-link" (click)="trocarPagina(page.number + 1)">{{ page.number + 2 }}</button>
+                </li>
+
+                <li class="page-item">
+                    <button class="page-link" (click)="trocarPagina(page.totalPages - 1)">Última</button>
+                </li>
+            }
+
+
+        </ul>
+    </nav>
+</div>

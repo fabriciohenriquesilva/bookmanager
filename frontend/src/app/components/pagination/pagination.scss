@@ -1,0 +1,9 @@
+.pagination {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+li, page-link, page-item {
+    border-radius: 4px !important;
+}

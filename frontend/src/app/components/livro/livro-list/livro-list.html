@@ -37,3 +37,7 @@
         }
     </tbody>
 </table>
+
+@if (page) {
+    <pagination [page]="page" (eventEmitter)="trocarPagina($event)"></pagination>
+}
