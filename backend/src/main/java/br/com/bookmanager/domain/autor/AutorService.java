@@ -5,6 +5,7 @@ import br.com.bookmanager.domain.autor.dto.AutorResponseDTO;
 import br.com.bookmanager.domain.autor.dto.AutorUpdateRequestDTO;
 import br.com.bookmanager.domain.autor.model.Autor;
 import br.com.bookmanager.domain.livro.dto.LivroResponseDTO;
+import br.com.bookmanager.domain.livro.model.Livro;
 import br.com.bookmanager.domain.livroautor.LivroAutorService;
 import br.com.bookmanager.domain.livroautor.model.LivroAutor;
 import br.com.bookmanager.infra.exception.RegistroNaoEncontradoException;
@@ -14,7 +15,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -50,6 +54,14 @@ public class AutorService {
 
         autor.setNome(request.nome());
 
+        if (request.livrosId() != null) {
+            if (request.livrosId().isEmpty()) {
+                excluirLivros(autor);
+            } else {
+                atualizarLivros(autor, request.livrosId());
+            }
+        }
+
         return new AutorResponseDTO(autorRepository.save(autor));
     }
 
@@ -82,5 +94,40 @@ public class AutorService {
                 .stream()
                 .map(AutorResponseDTO::new)
                 .toList();
+    }
+
+    private void atualizarLivros(Autor autor, List<Integer> livroRequestList) {
+
+        Set<Integer> livrosAtuais = livroAutorService.findByAutor(autor)
+                .stream()
+                .map(LivroAutor::getLivro)
+                .map(Livro::getCodL)
+                .collect(Collectors.toSet());
+
+        Set<Integer> livrosRequest = new HashSet<>(livroRequestList);
+
+        // Livros para excluir
+        Set<Integer> livrosExclusao = livrosAtuais.stream()
+                .filter(id -> !livrosRequest.contains(id))
+                .collect(Collectors.toSet());
+
+        for (Integer codL : livrosExclusao) {
+            livroAutorService.deleteByLivroAndAutor(codL, autor.getCodAu());
+        }
+
+        // Livros para incluir
+        Set<Integer> livrosInclusao = livrosRequest.stream()
+                .filter(id -> !livrosAtuais.contains(id))
+                .collect(Collectors.toSet());
+
+        for (Integer codL : livrosInclusao) {
+            Livro livro = livroAutorService.getByLivroCodL(codL);
+            livroAutorService.save(new LivroAutor(livro, autor));
+        }
+    }
+
+    private void excluirLivros(Autor autor) {
+        livroAutorService.findByAutor(autor)
+                .forEach(livroAutor -> livroAutorService.delete(livroAutor));
     }
 }

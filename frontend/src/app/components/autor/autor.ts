@@ -1,6 +1,6 @@
 export class Autor {
-    constructor(
-        public codAu?: number,
-        public nome?: string) {
+    constructor(public codAu?: number,
+                public nome?: string,
+                public livrosId?: number[]) {
     }
 }

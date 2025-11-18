@@ -5,6 +5,8 @@ import {AutorService} from '../autor.service';
 import {ActivatedRoute, Router, RouterModule} from '@angular/router';
 import {FormsModule} from '@angular/forms';
 import {CommonModule} from '@angular/common';
+import {Livro} from '../../livro/livro';
+import {LivroService} from '../../livro/livro.service';
 
 @Component({
     selector: 'autor-form',
@@ -12,13 +14,14 @@ import {CommonModule} from '@angular/common';
     templateUrl: './autor-form.html',
     styleUrl: './autor-form.scss',
     standalone: true,
-    providers: [AutorService]
+    providers: [AutorService, LivroService]
 })
 export class AutorForm implements OnInit {
 
     model: Autor = new Autor();
 
     constructor(private autorService: AutorService,
+                private livroService: LivroService,
                 private activatedRoute: ActivatedRoute,
                 private messageService: MessageService,
                 private router: Router) {
@@ -31,10 +34,20 @@ export class AutorForm implements OnInit {
             this.autorService.getById(id).subscribe(data => {
                 this.model = data;
             });
+
+            this.autorService.getLivrosByAutor(id).subscribe((data: Livro[]) => {
+                if (data.length > 0) {
+                    this.livroList = data;
+                }
+            });
         }
     }
 
     salvar(): void {
+        this.model.livrosId = this.livroList
+            ?.map(livro => livro?.codL)
+            ?.filter((id): id is number => id !== undefined) || [];
+
         this.autorService.save(this.model).subscribe({
             next: (autor: Autor) => {
                 this.messageService.show('Registro salvo com sucesso!', 'success');
@@ -61,6 +74,32 @@ export class AutorForm implements OnInit {
                 this.messageService.show(mensagem, 'danger');
             }
         });
+    }
+
+    livroAutocompleteList: Livro[] = [];
+    livroList: Livro[] = [];
+    livroAutocompleteVisible: boolean = false;
+
+    onSearchLivro(titulo: string): void {
+        if (titulo.length > 0) {
+            this.livroService.findByTitulo(titulo).subscribe(res => {
+                this.livroAutocompleteList = res;
+            });
+        } else {
+            this.livroAutocompleteList = [];
+        }
+    }
+
+    adicionarLivro(livro: Livro): void {
+        if (!this.livroList.some(a => a.codL === livro.codL)) {
+            this.livroList.push(livro);
+        }
+        this.livroAutocompleteList = [];
+    }
+
+    removerLivro(livro: Livro): void {
+        this.livroList = this.livroList
+            .filter(a => a.codL !== livro.codL);
     }
 
 }
